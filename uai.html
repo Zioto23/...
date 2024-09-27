@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Bora jogar lol?</title>
+    <style>
+        body {
+            text-align: center;
+            margin-top: 100px;
+        }
+        #sim {
+            padding: 15px 30px;
+            font-size: 20px;
+            cursor: pointer;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 8px;
+        }
+        #nao {
+            padding: 15px 30px;
+            font-size: 20px;
+            cursor: pointer;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            position: absolute;
+        }
+        #imagemDiv img {
+            margin-top: 20px;
+            max-width: 80%;
+            height: auto;
+        }
+        .emojis {
+            font-size: 50px; /* Aumenta o tamanho dos emojis */
+            margin-top: 20px; /* Adiciona espaço acima dos emojis */
+        }
+        .fade-out {
+            animation: fadeOut 3s forwards; /* Animação de fade out */
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <h2 id="pergunta">Bora jogar lol?</h2>
+    <button id="sim">Sim</button>
+    <button id="nao">Não</button>
+
+    <div id="imagemDiv"></div> <!-- Div onde a imagem e os emojis serão adicionados -->
+
+    <script>
+        const botaoSim = document.getElementById('sim');
+        const botaoNao = document.getElementById('nao');
+        const imagemDiv = document.getElementById('imagemDiv');
+        const pergunta = document.getElementById('pergunta');
+        
+        let tentativas = 0; // Contador de tentativas
+
+        // Evento para mostrar a imagem ao clicar no botão "Sim"
+        botaoSim.addEventListener('click', () => {
+            // Remover o botão "Não" e o texto da pergunta
+            botaoNao.style.display = 'none';
+            pergunta.style.display = 'none';
+
+            // Criar emojis de gratidão
+            const emojis = document.createElement('p');
+            emojis.className = 'emojis'; // Aplica a classe para aumentar o tamanho
+            emojis.innerText = '💖🙏✨😊';
+
+            // Cria uma nova tag de imagem e define a URL da imagem
+            const imagem = document.createElement('img');
+            imagem.src = 'https://i.pinimg.com/736x/3c/1e/7e/3c1e7e0ad10bb8889b181864faed0366.jpg'; // URL da imagem desejada
+            imagem.alt = 'Imagem de confirmação';
+
+            // Adiciona os emojis e a imagem na div 'imagemDiv'
+            imagemDiv.innerHTML = ''; // Limpa o conteúdo anterior (se houver)
+            imagemDiv.appendChild(emojis);
+            imagemDiv.appendChild(imagem);
+        });
+
+        // Evento para mover o botão "Não" quando o mouse passar sobre ele
+        botaoNao.addEventListener('mouseover', () => {
+            tentativas++; // Incrementa a contagem de tentativas
+            const larguraMax = window.innerWidth - botaoNao.offsetWidth;
+            const alturaMax = window.innerHeight - botaoNao.offsetHeight;
+
+            const novaPosicaoX = Math.random() * larguraMax;
+            const novaPosicaoY = Math.random() * alturaMax;
+
+            botaoNao.style.left = novaPosicaoX + 'px';
+            botaoNao.style.top = novaPosicaoY + 'px';
+
+            // Se o usuário tentar pegar o botão "Não" 3 vezes
+            if (tentativas === 3) {
+                mostrarImagem(); // Chama a função para mostrar a imagem
+                tentativas = 0; // Reseta o contador
+            }
+        });
+
+        // Função para mostrar a imagem de reação
+        function mostrarImagem() {
+            const imagemReacao = document.createElement('img');
+            imagemReacao.src = 'https://i.pinimg.com/736x/37/46/72/3746723677e9ca22891cf49e26d30946.jpg'; // URL da imagem de reação
+            imagemReacao.alt = 'Imagem de reação';
+            imagemReacao.className = 'fade-out'; // Aplica a classe de fade out
+
+            imagemDiv.appendChild(imagemReacao); // Adiciona a imagem de reação
+
+            // Remove a imagem após 3 segundos
+            setTimeout(() => {
+                imagemReacao.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
